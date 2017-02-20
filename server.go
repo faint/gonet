@@ -6,13 +6,13 @@ import (
 	"strconv"
 )
 
-// 枚举值 服务器状态的枚举值
+// the status of server
 const (
 	Stop = iota
 	Open
 )
 
-// Server  服务器的结构
+// Server  descript the server
 type Server struct {
 	port     int            // 服务器端口
 	status   int            // 服务器状态（枚举值）
@@ -37,7 +37,7 @@ func (s *Server) GetStatus() int {
 
 // Start server
 // need handler to handle conn
-func (s *Server) Start(handler func(net.Conn)) {
+func (s *Server) Start(connHandler func(net.Conn)) {
 	listener, err := net.Listen("tcp", ":"+strconv.Itoa(s.port))
 	if err != nil {
 		log.Fatal("Listen failed:", err)
@@ -45,13 +45,13 @@ func (s *Server) Start(handler func(net.Conn)) {
 	s.listener = listener
 
 	s.status = Open
-	for s.status == Open {
+	for s.status == Open { // while server is open
 		conn, err := listener.Accept()
 		if err != nil {
-			// Todo 日志链接错误
+			// Todo Log the err
 		}
 
-		go handler(conn) // 利用传入的函数处理链接
+		go connHandler(conn)
 	}
 }
 

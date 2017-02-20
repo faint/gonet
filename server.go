@@ -14,10 +14,9 @@ const (
 
 // Server  descript the server
 type Server struct {
-	port     int            // 服务器端口
-	status   int            // 服务器状态（枚举值）
-	listener net.Listener   // 侦听器
-	handler  func(net.Conn) // 处理链接的函数
+	port     int
+	status   int // the status of server
+	listener net.Listener
 }
 
 // GetServer Get Server instance

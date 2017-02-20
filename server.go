@@ -20,10 +20,10 @@ type Server struct {
 	handler  func(net.Conn) // 处理链接的函数
 }
 
-// GetInstance Get Server instance
+// GetServer Get Server instance
 // need port to listen
 // won't Start the Server
-func GetInstance(port int) *Server {
+func GetServer(port int) *Server {
 	s := new(Server)
 	s.port = port
 	s.status = Stop

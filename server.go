@@ -8,7 +8,7 @@ import (
 
 // 枚举值 服务器状态的枚举值
 const (
-	Close = iota
+	Stop = iota
 	Open
 )
 
@@ -17,22 +17,26 @@ type Server struct {
 	port     int            // 服务器端口
 	status   int            // 服务器状态（枚举值）
 	listener net.Listener   // 侦听器
-	handler  func(net.Conn) // 处理链接的函数（作为Start()的参数传入）
+	handler  func(net.Conn) // 处理链接的函数
 }
 
-// Init 设置端口，并返回Server指针。并不会启动服务器。
-func Init(port int) *Server {
+// GetInstance Get Server instance
+// need port to listen
+// won't Start the Server
+func GetInstance(port int) *Server {
 	s := new(Server)
 	s.port = port
+	s.status = Stop
 	return s
 }
 
-// GetStatus 返回服务器状态（枚举值）
+// GetStatus Get server status
 func (s *Server) GetStatus() int {
 	return s.status
 }
 
 // Start server
+// need handler to handle conn
 func (s *Server) Start(handler func(net.Conn)) {
 	listener, err := net.Listen("tcp", ":"+strconv.Itoa(s.port))
 	if err != nil {
@@ -53,6 +57,6 @@ func (s *Server) Start(handler func(net.Conn)) {
 
 // Stop server
 func (s *Server) Stop() {
-	s.status = Close
+	s.status = Stop
 	s.listener.Close()
 }

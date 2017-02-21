@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"log"
 	"net"
 	"strconv"
@@ -47,7 +48,7 @@ func (s *Server) Start(connHandler func(net.Conn)) {
 	for s.status == Open { // while server is open
 		conn, err := listener.Accept()
 		if err != nil {
-			// Todo Log the err
+			fmt.Println("listener.Accept err:", err)
 		}
 
 		go connHandler(conn)
@@ -58,4 +59,5 @@ func (s *Server) Start(connHandler func(net.Conn)) {
 func (s *Server) Stop() {
 	s.status = Stop
 	s.listener.Close()
+	fmt.Println("listener.Close")
 }

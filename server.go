@@ -38,6 +38,11 @@ func (s *Server) GetStatus() int {
 // Start server
 // need handler to handle conn
 func (s *Server) Start(connHandler func(net.Conn)) {
+	if s.status == Open {
+		fmt.Println("already start listen")
+		return
+	}
+
 	listener, err := net.Listen("tcp", ":"+strconv.Itoa(s.port))
 	if err != nil {
 		log.Fatal("Listen failed:", err)

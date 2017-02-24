@@ -9,7 +9,8 @@ import (
 
 // the status of server
 const (
-	Stop = iota
+	Lost = iota
+	Stop
 	Open
 	Waring
 	Full

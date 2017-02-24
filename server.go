@@ -11,6 +11,8 @@ import (
 const (
 	Stop = iota
 	Open
+	Waring
+	Full
 )
 
 // Server  descript the server

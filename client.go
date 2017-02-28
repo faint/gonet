@@ -13,7 +13,7 @@ const (
 type Client struct {
 	address string // ip +":"+ port
 	status  int
-	Conn    net.Conn
+	conn    net.Conn
 }
 
 // GetClient return client pointer and set the address.
@@ -45,7 +45,12 @@ func (c *Client) Dial() (net.Conn, error) {
 	if err != nil {
 		return nil, err
 	}
-	c.Conn = conn
+	c.conn = conn
 	c.status = Open
 	return conn, nil
+}
+
+// Send message use conn
+func (c *Client) Send(b []byte) {
+	c.conn.Write(b)
 }

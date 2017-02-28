@@ -51,6 +51,12 @@ func (c *Client) Dial() (net.Conn, error) {
 }
 
 // Send message use conn
-func (c *Client) Send(b []byte) {
-	c.conn.Write(b)
+func (c *Client) Send(b []byte) (int, error) {
+	n, e := c.conn.Write(b)
+	return n, e
+}
+
+// Close the client
+func (c *Client) Close() {
+	c.conn.Close()
 }

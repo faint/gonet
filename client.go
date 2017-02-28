@@ -58,5 +58,6 @@ func (c *Client) Send(b []byte) (int, error) {
 
 // Close the client
 func (c *Client) Close() {
+	c.status = Stop
 	c.conn.Close()
 }

@@ -21,17 +21,17 @@ type Client struct {
 func GetClient(ip, port string) *Client {
 	c := new(Client)
 
-	if ip != "" {
-		c.address = ip + ":" + port
+	if ip == "" {
+		ip = "127.0.0.1"
 	}
+	c.address = ip + ":" + port
 
 	c.status = Lost
 
-	open := false
-	for !open { // when can't connect, retry every 1 Second
+	for { // when can't connect, retry every 1 Second
 		_, err := c.Dial()
 		if err == nil {
-			open = true
+			break
 		}
 		time.Sleep(retryDelay * time.Second)
 	}

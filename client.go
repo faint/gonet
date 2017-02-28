@@ -29,7 +29,7 @@ func GetClient(ip, port string) *Client {
 
 	open := false
 	for !open { // when can't connect, retry every 1 Second
-		err := c.Dial()
+		_, err := c.Dial()
 		if err == nil {
 			open = true
 		}
@@ -40,12 +40,12 @@ func GetClient(ip, port string) *Client {
 }
 
 // Dial dial target address.
-func (c *Client) Dial() error {
+func (c *Client) Dial() (net.Conn, error) {
 	conn, err := net.Dial("tcp", c.address)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	c.Conn = conn
 	c.status = Open
-	return nil
+	return conn, nil
 }

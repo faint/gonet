@@ -2,7 +2,6 @@ package server
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"strconv"
 )
@@ -40,27 +39,29 @@ func (s *Server) GetStatus() int {
 
 // Start server
 // need handler to handle conn
-func (s *Server) Start(connHandler func(net.Conn)) {
+func (s *Server) Start(connHandler func(net.Conn)) error {
 	if s.status == Open {
 		fmt.Println("[unexpected]already start listen")
-		return
+		return nil
 	}
 
 	listener, err := net.Listen("tcp", ":"+strconv.Itoa(s.port))
 	if err != nil {
-		log.Fatal("Listen failed:", err)
+		return err
 	}
 	s.listener = listener // save for when s.Stop() to s.listener.Close()
 
 	s.status = Open
 	for s.status == Open { // while server is open
 		conn, err := listener.Accept()
-		if err != nil {
-			fmt.Println("[error]listener.Accept:", err)
+		if err != nil { // if Accept.Error , ignore this conn, continue
+			fmt.Println("server.Start listener.Accept error:", err)
+			continue
 		}
 
 		go connHandler(conn)
 	}
+	return nil
 }
 
 // Stop server

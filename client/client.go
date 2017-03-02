@@ -1,8 +1,17 @@
-package server
+package client
 
 import (
 	"net"
 	"time"
+)
+
+// the status of server
+const (
+	Lost = iota
+	Stop
+	Open
+	Waring
+	Full
 )
 
 const (

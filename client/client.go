@@ -1,6 +1,7 @@
 package client
 
 import (
+	"fmt"
 	"net"
 	"time"
 )
@@ -38,10 +39,13 @@ func GetClient(ip, port string) *Client {
 	c.status = Lost
 
 	for { // when can't connect, retry every 1 Second
-		_, err := c.Dial()
+		conn, err := c.Dial()
 		if err == nil {
+			c.conn = conn
+			fmt.Println("once")
 			break
 		}
+
 		time.Sleep(retryDelay * time.Second)
 	}
 

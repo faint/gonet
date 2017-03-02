@@ -41,7 +41,7 @@ func (s *Server) GetStatus() int {
 // need handler to handle conn
 func (s *Server) Start(connHandler func(net.Conn)) error {
 	if s.status == Open {
-		fmt.Println("[unexpected]already start listen")
+		fmt.Println("server already start listen")
 		return nil
 	}
 
@@ -68,5 +68,5 @@ func (s *Server) Start(connHandler func(net.Conn)) error {
 func (s *Server) Stop() {
 	s.status = Stop
 	s.listener.Close()
-	fmt.Println("[stop]listener.Close")
+	fmt.Println("listener.Close")
 }

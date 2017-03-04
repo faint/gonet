@@ -1,7 +1,6 @@
 package client
 
 import (
-	"fmt"
 	"net"
 	"time"
 )
@@ -42,7 +41,6 @@ func GetClient(ip, port string) *Client {
 		conn, err := c.Dial()
 		if err == nil {
 			c.conn = conn
-			fmt.Println("once")
 			break
 		}
 
